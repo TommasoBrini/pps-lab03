@@ -83,7 +83,7 @@ object Sequences: // Essentially, generic linkedlists
     def flatMap[A, B](s: Sequence[A])(mapper: A => Sequence[B]): Sequence[B] = s match
       case Cons(h, t) => concat(mapper(h), flatMap(t)(mapper))
       case _ => Nil()
-    
+
 
     /*
      * Get the minimum element in the sequence
