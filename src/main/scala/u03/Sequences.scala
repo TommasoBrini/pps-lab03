@@ -90,21 +90,35 @@ object Sequences: // Essentially, generic linkedlists
      * E.g., [30, 20, 10] => 10
      * E.g., [10, 1, 30] => 1
      */
-    def min(s: Sequence[Int]): Optional[Int] = ???
+    def min(s: Sequence[Int]): Optional[Int] =
+      @annotation.tailrec
+      def _min(s: Sequence[Int], acc: Int): Optional[Int] = s match
+        case Cons(h, Nil()) => if (h < acc) Just(h) else Just(acc)
+        case Cons(h, t) => _min(t, if (h < acc) h else acc)
+        case _ => Empty()
+
+      _min(s, Int.MaxValue)
+
 
     /*
      * Get the elements at even indices
      * E.g., [10, 20, 30] => [10, 30]
      * E.g., [10, 20, 30, 40] => [10, 30]
      */
-    def evenIndices[A](s: Sequence[A]): Sequence[A] = ???
+    def evenIndices[A](s: Sequence[A]): Sequence[A] = s match
+      case Cons(h, Cons(h2, t)) => Cons(h, evenIndices(t))
+      case Cons(h, Nil()) => Cons(h, Nil())
+      case _ => Nil()
+
 
     /*
      * Check if the sequence contains the element
      * E.g., [10, 20, 30] => true if elem is 20
      * E.g., [10, 20, 30] => false if elem is 40
      */
-    def contains[A](s: Sequence[A])(elem: A): Boolean = ???
+    def contains[A](s: Sequence[A])(elem: A): Boolean = s match
+      case Cons(h, t) => if (h == elem) true else contains(t)(elem)
+      case _ => false
 
     /*
      * Remove duplicates from the sequence
