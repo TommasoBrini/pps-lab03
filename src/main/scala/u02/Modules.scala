@@ -24,4 +24,12 @@ object Modules extends App:
     case _ => false
 
   println(isStudent(Student("mario", 2015)))
+
+  import u03.extensionmethods.Sequences.*
+
+  extension (s: Sequence[Person])
+    
+    def courseOfTeachers(): Sequence[String] = s.filter((p: Person) => !isStudent(p)).map((t: Person) => t.asInstanceOf[Teacher].course)
+    
+
 end Modules
