@@ -1,5 +1,7 @@
 package u03.extensionmethods
 
+import scala.annotation.tailrec
+
 object Sequences:
 
   enum Sequence[E]:
@@ -12,6 +14,12 @@ object Sequences:
       def sum: Int = l match
         case Cons(h, t) => h + t.sum
         case _ => 0
+
+      @tailrec
+      def foldLeft(default: Int)(f: (Int, Int) => Int): Int = l match
+        case Cons(h, t) => t.foldLeft(f(default, h))(f)
+        case Nil() => default
+
 
     extension [A](l: Sequence[A])
 
@@ -39,3 +47,6 @@ end Sequences
   println(sum(map(filter(seq)(_ >= 20))(_ + 1))) // equally possible
   val seq2 = of(10, -1) // Cons(-1, Cons(-1, Cons(-1, ...)))
   println(seq2.sum) // -10
+
+  val lst = Cons(3, Cons(7, Cons(1, Cons(5, Nil()))))
+  println(lst.foldLeft(0)(_ - _)) //-16
