@@ -30,6 +30,7 @@ object Modules extends App:
   extension (s: Sequence[Person])
     
     def courseOfTeachers(): Sequence[String] = s.filter((p: Person) => !isStudent(p)).map((t: Person) => t.asInstanceOf[Teacher].course)
-    
+
+    def coursesCount(): Int = s.filter((p: Person) => !isStudent(p)).map(t => 1).foldLeft(0)(_+_)
 
 end Modules
